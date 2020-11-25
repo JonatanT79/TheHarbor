@@ -1,8 +1,8 @@
 ﻿namespace TheHarbor
 {
-    class MotorBoat : Boat
+    class PowerBoat : Boat
     {
-        public MotorBoat()
+        public PowerBoat()
         {
             Id = "M-" + GenerateRandomId();
             Type = "Motorbåt";
