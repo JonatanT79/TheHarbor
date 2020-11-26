@@ -14,13 +14,15 @@ namespace TheHarbor
     }
     class Harbor
     {
+        public int CurrentDay { get; set; } = 1;
+
         List<Boat> RejectedBoats = new List<Boat>();
+
         public void RegisterIncomingBoats()
         {
             Boat[] harborList = new Boat[25];
             Random rnd = new Random();
             const int POWERBOAT_INDEX = 1, SAILBOAT_INDEX = 2, CARGOSHIP_INDEX = 3, BOATS_PER_DAY = 5;
-            int days = 0;
             ConsoleKey key;
             do
             {
@@ -43,10 +45,11 @@ namespace TheHarbor
                     }
                 }
 
+                MakeBoatsToLeaveWhenItsTime(harborList, CurrentDay);
                 PrintAllBoatsInHarbor(harborList);
                 Console.WriteLine("");
                 Console.WriteLine("Summary:");
-                Console.WriteLine($"Day {++days}");
+                Console.WriteLine($"Day {CurrentDay++}");
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine($"Amount of empty spaces: {GetTheNumberOfEmptySpaces(harborList)}");
                 ShowAllRejectedBoats();
@@ -54,19 +57,40 @@ namespace TheHarbor
             }
             while (key == ConsoleKey.Enter);
         }
+        public void MakeBoatsToLeaveWhenItsTime(Boat[] harbor, int currentDay)
+        {
+            for (int i = 0; i < harbor.Length; i++)
+            {
+                Boat boat = harbor[i];
+
+                if (boat != null)
+                {
+                    if (boat.DayToLeave == currentDay)
+                    {
+                        harbor[i] = null;
+                    }
+                }
+            }
+        }
         public void AddPowerBoatOnArrival(Boat[] harbor)
         {
             PowerBoat powerBoat = new PowerBoat();
+            powerBoat.DayOfArrival = CurrentDay;
+            powerBoat.DayToLeave = CurrentDay + powerBoat.DaysInHarbor;
             RegisterBoat(harbor, powerBoat);
         }
         public void AddSailBoatOnArrival(Boat[] harbor)
         {
             SailBoat sailBoat = new SailBoat();
+            sailBoat.DayOfArrival = CurrentDay;
+            sailBoat.DayToLeave = CurrentDay + sailBoat.DaysInHarbor;
             RegisterBoat(harbor, sailBoat);
         }
         public void AddCargoShipOnArrival(Boat[] harbor)
         {
             CargoShip cargoShip = new CargoShip();
+            cargoShip.DayOfArrival = CurrentDay;
+            cargoShip.DayToLeave = CurrentDay + cargoShip.DaysInHarbor;
             RegisterBoat(harbor, cargoShip);
         }
         public void RegisterBoat(Boat[] harbor, Boat boat)
@@ -145,4 +169,5 @@ namespace TheHarbor
     }
 }
 //TODO:
-//Fix when boat leaves
+//Fix to keep searching for emptyspaces if boat does not fit where a boat left
+//Fix if boat does not fit in the spaces where a boat left

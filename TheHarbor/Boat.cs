@@ -8,6 +8,8 @@ namespace TheHarbor
         public string Type { get; set; }
         public int HarborSpace { get; set; }
         public int DaysInHarbor { get; set; }
+        public int DayOfArrival { get; set; }
+        public int DayToLeave { get; set; }
         public double MaxSpeed { get; set; }
         public string UniqueAbility { get; set; }
         public string GenerateRandomId()
