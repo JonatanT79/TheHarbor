@@ -6,7 +6,7 @@ namespace TheHarbor
 {
     class Reject
     {
-        List<Boat> RejectedBoats = new List<Boat>();
+        static List<Boat> RejectedBoats = new List<Boat>();
 
         public void RejectBoatIfItDoesNotFitInHarbor(Boat boat)
         {

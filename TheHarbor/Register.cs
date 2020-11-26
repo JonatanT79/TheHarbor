@@ -6,6 +6,7 @@ namespace TheHarbor
     class Register
     {
         Harbor harbor = new Harbor();
+        Reject reject = new Reject();
         public void AddPowerBoatOnArrival(Boat[] harbor, int currentDay)
         {
             PowerBoat powerBoat = new PowerBoat();
@@ -29,7 +30,6 @@ namespace TheHarbor
         }
         public void RegisterBoat(Boat[] harborList, Boat boat)
         {
-            Reject reject = new Reject();
             int emptySpace = harbor.SearchForEmptyHarborSpace(harborList);
 
             if (emptySpace == -1)
