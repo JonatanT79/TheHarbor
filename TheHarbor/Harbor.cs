@@ -84,8 +84,6 @@ namespace TheHarbor
 
                 if (harbor[harborSpaceIndex] != null)
                 {
-                    //om det är en segelbåt och ENDAST en plats != null, ge emptyspace ett nytt värde innan det läggs till i rejected
-                    //lägg till i rejectedboats
                     return false;
                 }
             }
