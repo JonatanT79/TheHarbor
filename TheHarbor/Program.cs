@@ -29,7 +29,7 @@ namespace TheHarbor
                 for (int i = 0; i < BOATS_PER_DAY; i++)
                 {
                     //rnd
-                    int boatIndex = 3;
+                    int boatIndex = rnd.Next(1, 4);
 
                     if (boatIndex == POWERBOAT_INDEX)
                     {
@@ -97,7 +97,7 @@ namespace TheHarbor
         {
             int emptySpace = SearchForEmptyHarborSpace(harbor);
 
-            if (CheckIfBoatFitsInTheEmptySpace(emptySpace, harbor, boat))
+            if (emptySpace != -1 && CheckIfBoatFitsInTheEmptySpace(emptySpace, harbor, boat))
             {
                 for (int i = 0; i < boat.HarborSpace; i++)
                 {
