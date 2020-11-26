@@ -7,6 +7,7 @@ namespace TheHarbor
     {
         Harbor harbor = new Harbor();
         Reject reject = new Reject();
+
         public void AddPowerBoatOnArrival(Boat[] harborList, List<Boat> rejectedBoats, int currentDay)
         {
             PowerBoat powerBoat = new PowerBoat();
@@ -28,7 +29,7 @@ namespace TheHarbor
             cargoShip.DayToLeave = currentDay + cargoShip.DaysInHarbor;
             RegisterBoat(harborList, rejectedBoats, cargoShip);
         }
-        public void RegisterBoat(Boat[] harborList, List<Boat> rejectedBoats, Boat boat)
+        private void RegisterBoat(Boat[] harborList, List<Boat> rejectedBoats, Boat boat)
         {
             int emptySpace = harbor.SearchForEmptyHarborSpace(harborList);
 

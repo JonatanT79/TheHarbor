@@ -10,17 +10,5 @@ namespace TheHarbor
         {
             rejectedBoats.Add(boat);
         }
-        public void ShowAllRejectedBoats(List<Boat> rejectedBoats)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"All rejected boats (count:{rejectedBoats.Count})");
-
-            foreach (var item in rejectedBoats)
-            {
-                Console.WriteLine(item.Id);
-            }
-
-            Console.ResetColor();
-        }
     }
 }
