@@ -97,13 +97,21 @@ namespace TheHarbor
         {
             int emptySpace = SearchForEmptyHarborSpace(harbor);
 
-            if (emptySpace != -1 && CheckIfBoatFitsInTheEmptySpace(emptySpace, harbor, boat))
+            if (emptySpace == -1)
+            {
+                RejectBoatIfItDoesNotFitInHarbor(boat);
+            }
+            else if (CheckIfBoatFitsInTheEmptySpace(emptySpace, harbor, boat))
             {
                 for (int i = 0; i < boat.HarborSpace; i++)
                 {
                     harbor[emptySpace + i] = boat;
                 }
             }
+        }
+        public void RejectBoatIfItDoesNotFitInHarbor(Boat boat)
+        {
+            RejectedBoats.Add(boat);
         }
         public int SearchForEmptyHarborSpace(Boat[] harbor)
         {
@@ -119,7 +127,7 @@ namespace TheHarbor
 
                 if (harborSpaceIndex >= 25)
                 {
-                    RejectedBoats.Add(boat);
+                    RejectBoatIfItDoesNotFitInHarbor(boat);
                     return false;
                 }
 
@@ -154,17 +162,23 @@ namespace TheHarbor
         {
             //Group by id and print how many spaces they take
             Console.Clear();
-            var query = from e in harbor
-                        where e != null
-                        select e;
+            Console.WriteLine($"{"Plats",-8} {"Typ",-15} {"Id",-15} {"Maxhastighet",-15} {"Övrigt",-15}");
+            int space = 1;
 
-            foreach (var item in query)
+            foreach (var item in harbor)
             {
-                Console.WriteLine(item.Id);
+                if (item == null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"{space,-8} {"Ledig"}");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"{space,-8} {item.Type,-15} {item.Id,-15} {item.MaxSpeed,-15} {item.UniqueAbility,-15}");
+                }
+                space++;
             }
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(query.Count());
-            Console.ResetColor();
         }
     }
 }
