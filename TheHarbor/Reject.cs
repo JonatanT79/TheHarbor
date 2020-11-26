@@ -6,18 +6,16 @@ namespace TheHarbor
 {
     class Reject
     {
-        static List<Boat> RejectedBoats = new List<Boat>();
-
-        public void RejectBoatIfItDoesNotFitInHarbor(Boat boat)
+        public void RejectBoatIfItDoesNotFitInHarbor(Boat boat, ref List<Boat> rejectedBoats)
         {
-            RejectedBoats.Add(boat);
+            rejectedBoats.Add(boat);
         }
-        public void ShowAllRejectedBoats()
+        public void ShowAllRejectedBoats(List<Boat> rejectedBoats)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"All rejected boats (count:{RejectedBoats.Count})");
+            Console.WriteLine($"All rejected boats (count:{rejectedBoats.Count})");
 
-            foreach (var item in RejectedBoats)
+            foreach (var item in rejectedBoats)
             {
                 Console.WriteLine(item.Id);
             }

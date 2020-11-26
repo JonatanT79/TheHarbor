@@ -13,10 +13,12 @@ namespace TheHarbor
         public void RegisterIncomingBoats()
         {
             Register register = new Register();
-            Boat[] harborList = new Boat[25];
             Random rnd = new Random();
             const int POWERBOAT_INDEX = 1, SAILBOAT_INDEX = 2, CARGOSHIP_INDEX = 3, BOATS_PER_DAY = 5;
             ConsoleKey key;
+            Boat[] harborList = new Boat[25];
+            List<Boat> rejectedBoats = new List<Boat>();
+
             do
             {
                 for (int i = 0; i < BOATS_PER_DAY; i++)
@@ -25,15 +27,15 @@ namespace TheHarbor
 
                     if (boatIndex == POWERBOAT_INDEX)
                     {
-                        register.AddPowerBoatOnArrival(harborList, CurrentDay);
+                        register.AddPowerBoatOnArrival(harborList, rejectedBoats, CurrentDay);
                     }
                     else if (boatIndex == SAILBOAT_INDEX)
                     {
-                        register.AddSailBoatOnArrival(harborList, CurrentDay);
+                        register.AddSailBoatOnArrival(harborList, rejectedBoats, CurrentDay);
                     }
                     else if (boatIndex == CARGOSHIP_INDEX)
                     {
-                        register.AddCargoShipOnArrival(harborList, CurrentDay);
+                        register.AddCargoShipOnArrival(harborList, rejectedBoats, CurrentDay);
                     }
                 }
 
@@ -44,7 +46,7 @@ namespace TheHarbor
                 Console.WriteLine($"Day {CurrentDay++}");
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine($"Amount of empty spaces: {GetTheNumberOfEmptySpaces(harborList)}");
-                reject.ShowAllRejectedBoats();
+                reject.ShowAllRejectedBoats(rejectedBoats);
                 key = Console.ReadKey().Key;
             }
             while (key == ConsoleKey.Enter);
@@ -64,13 +66,23 @@ namespace TheHarbor
                 }
             }
         }
-        public int SearchForEmptyHarborSpace(Boat[] harbor)
+        public int SearchForEmptyHarborSpace(Boat[] harbor, int searchIndex = 0)
         {
+            int harborSpace = 0;
             Boat findSpace = harbor.Where(h => h == null).FirstOrDefault();
-            int harborSpace = Array.IndexOf(harbor, findSpace);
+
+            if (searchIndex == 0)
+            {
+                harborSpace = Array.IndexOf(harbor, findSpace);
+            }
+            else
+            {
+                harborSpace = Array.IndexOf(harbor, findSpace, searchIndex);
+            }
+
             return harborSpace;
         }
-        public bool CheckIfBoatFitsInHarbor(int emptySpace, Boat[] harbor, Boat boat)
+        public bool CheckIfBoatFitsInHarbor(Boat[] harborList, List<Boat> rejectedBoats, Boat boat, ref int emptySpace)
         {
             for (int i = 0; i < boat.HarborSpace; i++)
             {
@@ -78,13 +90,22 @@ namespace TheHarbor
 
                 if (harborSpaceIndex >= 25)
                 {
-                    reject.RejectBoatIfItDoesNotFitInHarbor(boat);
+                    reject.RejectBoatIfItDoesNotFitInHarbor(boat, ref rejectedBoats);
                     return false;
                 }
 
-                if (harbor[harborSpaceIndex] != null)
+                if (harborList[harborSpaceIndex] != null)
                 {
-                    return false;
+                    emptySpace = SearchForEmptyHarborSpace(harborList, harborSpaceIndex);
+
+                    if (emptySpace < 25)
+                    {
+                        i = -1;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -119,3 +140,4 @@ namespace TheHarbor
         }
     }
 }
+//Fix emptyspaces

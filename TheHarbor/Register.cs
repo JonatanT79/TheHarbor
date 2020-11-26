@@ -7,36 +7,36 @@ namespace TheHarbor
     {
         Harbor harbor = new Harbor();
         Reject reject = new Reject();
-        public void AddPowerBoatOnArrival(Boat[] harbor, int currentDay)
+        public void AddPowerBoatOnArrival(Boat[] harborList, List<Boat> rejectedBoats, int currentDay)
         {
             PowerBoat powerBoat = new PowerBoat();
             powerBoat.DayOfArrival = currentDay;
             powerBoat.DayToLeave = currentDay + powerBoat.DaysInHarbor;
-            RegisterBoat(harbor, powerBoat);
+            RegisterBoat(harborList, rejectedBoats, powerBoat);
         }
-        public void AddSailBoatOnArrival(Boat[] harbor, int currentDay)
+        public void AddSailBoatOnArrival(Boat[] harborList, List<Boat> rejectedBoats, int currentDay)
         {
             SailBoat sailBoat = new SailBoat();
             sailBoat.DayOfArrival = currentDay;
             sailBoat.DayToLeave = currentDay + sailBoat.DaysInHarbor;
-            RegisterBoat(harbor, sailBoat);
+            RegisterBoat(harborList, rejectedBoats, sailBoat);
         }
-        public void AddCargoShipOnArrival(Boat[] harbor, int currentDay)
+        public void AddCargoShipOnArrival(Boat[] harborList, List<Boat> rejectedBoats, int currentDay)
         {
             CargoShip cargoShip = new CargoShip();
             cargoShip.DayOfArrival = currentDay;
             cargoShip.DayToLeave = currentDay + cargoShip.DaysInHarbor;
-            RegisterBoat(harbor, cargoShip);
+            RegisterBoat(harborList, rejectedBoats, cargoShip);
         }
-        public void RegisterBoat(Boat[] harborList, Boat boat)
+        public void RegisterBoat(Boat[] harborList, List<Boat> rejectedBoats, Boat boat)
         {
             int emptySpace = harbor.SearchForEmptyHarborSpace(harborList);
 
             if (emptySpace == -1)
             {
-                reject.RejectBoatIfItDoesNotFitInHarbor(boat);
+                reject.RejectBoatIfItDoesNotFitInHarbor(boat, ref rejectedBoats);
             }
-            else if (harbor.CheckIfBoatFitsInHarbor(emptySpace, harborList, boat))
+            else if (harbor.CheckIfBoatFitsInHarbor(harborList, rejectedBoats, boat, ref emptySpace))
             {
                 for (int i = 0; i < boat.HarborSpace; i++)
                 {
