@@ -88,7 +88,7 @@ namespace TheHarbor
             {
                 int harborSpaceIndex = emptySpace + i;
 
-                if (harborSpaceIndex >= 25)
+                if (harborSpaceIndex >= 25 || harborSpaceIndex == -1)
                 {
                     reject.RejectBoatIfItDoesNotFitInHarbor(boat, ref rejectedBoats);
                     return false;
