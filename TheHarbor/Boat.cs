@@ -25,5 +25,3 @@ namespace TheHarbor
         }
     }
 }
-//Hamn med 25 platser
-//Trycka på enter så går man över till nästa dag och hamnen refreshas
