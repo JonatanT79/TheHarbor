@@ -12,4 +12,4 @@
             UniqueAbility = "Antal hästkrafter (10-1000 hk)";
         }
     }
-}
+} 
